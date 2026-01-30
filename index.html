@@ -17,66 +17,102 @@
         
         canvas { display: block; background: transparent; }
 
-        #statsArea { position: absolute; top: 90px; left: 20px; pointer-events: none; z-index: 5; }
-        #scoreText { font-size: 28px; font-weight: bold; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); margin: 0; }
-        #highScoreText { font-size: 18px; color: #ffd700; margin: 0; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
-        #maxComboText { font-size: 18px; color: #00f2fe; margin: 0; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
-        #livesDisplay { font-size: 35px; margin-top: 5px; }
-
-        #recipeContainer { 
-            position: absolute; top: 100px; left: 50%; transform: translateX(-50%); 
-            pointer-events: none; text-align: center; min-width: 300px; z-index: 5;
-            background: rgba(255, 255, 255, 0.2); padding: 10px 20px; border-radius: 20px; backdrop-filter: blur(8px); 
-            border: 2px solid rgba(255,255,255,0.3);
+        /* FIXED MOBILE STATS BAR */
+        #statsArea { 
+            position: absolute; 
+            top: 85px; /* Sits just below the roof rafters */
+            left: 0;
+            width: 100%;
+            pointer-events: none; 
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+        
+        #scoreRow {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
         }
 
-        #orderTitle { font-size: 16px; color: #fff; text-transform: uppercase; font-weight: bold; text-shadow: 1px 1px 2px #000; }
-        #smoothieName { font-size: 32px; color: #ffca3a; font-weight: 900; display: block; margin: 2px 0; text-shadow: 2px 2px 4px #000; }
-        #ingredients { font-size: 28px; font-weight: bold; color: #fff; text-shadow: 1px 1px 2px #000; }
+        #scoreText { font-size: 20px; font-weight: bold; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        #highScoreText { font-size: 14px; color: #ffd700; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        #maxComboText { font-size: 14px; color: #00f2fe; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        #livesDisplay { font-size: 24px; margin-top: 2px; }
+
+        /* REPOSITIONED ORDER TICKET */
+        #recipeContainer { 
+            position: absolute; 
+            top: 165px; /* Moved down to avoid the stats bar */
+            left: 50%; 
+            transform: translateX(-50%); 
+            pointer-events: none; 
+            text-align: center; 
+            width: 90%;
+            max-width: 350px;
+            z-index: 5;
+            background: rgba(255, 255, 255, 0.2); 
+            padding: 8px 15px; 
+            border-radius: 15px; 
+            backdrop-filter: blur(8px); 
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        #orderTitle { font-size: 14px; color: #fff; text-transform: uppercase; font-weight: bold; text-shadow: 1px 1px 2px #000; }
+        #smoothieName { font-size: 24px; color: #ffca3a; font-weight: 900; display: block; margin: 2px 0; text-shadow: 2px 2px 4px #000; }
+        #ingredients { font-size: 22px; font-weight: bold; color: #fff; text-shadow: 1px 1px 2px #000; }
 
         .overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.85); color: white; display: flex; 
             flex-direction: column; align-items: center; justify-content: center; z-index: 20;
             text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        #message { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); 
-                   font-size: 40px; font-weight: bold; color: #ff4500; text-align: center; 
-                   background: rgba(255,255,255,0.95); padding: 30px; border-radius: 30px; 
-                   box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: none; z-index: 10; line-height: 1.2; }
+        #message { position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); 
+                   font-size: 32px; font-weight: bold; color: #ff4500; text-align: center; 
+                   background: rgba(255,255,255,0.95); padding: 20px; border-radius: 30px; 
+                   box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: none; z-index: 10; width: 80%; }
         
         #success { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);
-                   font-size: 60px; color: #ffffff; font-weight: bold; display: none; text-shadow: 4px 4px #32cd32; z-index: 10;}
+                   font-size: 45px; color: #ffffff; font-weight: bold; display: none; text-shadow: 4px 4px #32cd32; z-index: 10;}
         
-        button { padding: 20px 40px; font-size: 28px; cursor: pointer; border-radius: 15px; border: none; background: #ae2012; color: white; margin-top: 25px; font-weight: bold; transition: transform 0.1s; }
-        button:hover { transform: scale(1.05); background: #d00000; }
+        button { padding: 15px 30px; font-size: 22px; cursor: pointer; border-radius: 15px; border: none; background: #ae2012; color: white; margin-top: 20px; font-weight: bold; }
 
-        .instruction-box { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.2); }
+        .instruction-box { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.2); width: 90%; }
     </style>
 </head>
 <body>
 
 <div id="startScreen" class="overlay">
-    <h1 style="font-size: 60px; color: #ffca3a; margin-bottom: 10px;">🍹 TIKI SMOOTHIE BAR 🥥</h1>
+    <h1 style="font-size: 38px; color: #ffca3a; margin-bottom: 10px;">🍹 TIKI BAR 🥥</h1>
     <div class="instruction-box">
-        <p style="font-size: 24px;">1. Follow the <strong>Recipe</strong> at the top.</p>
-        <p style="font-size: 24px;">2. Catch <strong>fruit</strong> to earn <strong>points</strong> and <strong>Combos</strong>.</p>
-        <p style="font-size: 24px;">3. Avoid <strong>Gross Items</strong> (Soap, Socks, Bugs!)</p>
-        <p style="font-size: 20px; color: #00f2fe;">3 Mistakes and the Bar is Closed!</p>
+        <p style="font-size: 18px; margin: 5px 0;">1. Follow the <strong>Recipe</strong>.</p>
+        <p style="font-size: 18px; margin: 5px 0;">2. Catch <strong>fruit</strong> for <strong>points</strong>.</p>
+        <p style="font-size: 18px; margin: 5px 0;">3. Avoid <strong>Gross Items</strong>!</p>
+        <p style="font-size: 16px; color: #00f2fe; margin: 5px 0;">3 Mistakes = Bar Closed!</p>
     </div>
     <button id="startBtn">START SHIFT</button>
 </div>
 
 <div id="statsArea">
-    <div id="scoreText">Score: 0 | Level: 1</div>
-    <div id="highScoreText">Best Score: 0</div>
-    <div id="maxComboText">Best Streak: 1x</div>
+    <div id="scoreRow">
+        <div id="scoreText">Score: 0 | Level: 1</div>
+    </div>
+    <div id="scoreRow">
+        <div id="highScoreText">Best: 0</div>
+        <div id="maxComboText">Streak: 1x</div>
+    </div>
     <div id="livesDisplay">❤️❤️❤️</div>
 </div>
 
 <div id="recipeContainer">
-    <span id="orderTitle">🍹 Tiki Bar Order 🍹</span>
+    <span id="orderTitle">🍹 Current Order 🍹</span>
     <span id="smoothieName">Loading...</span>
     <div id="ingredients"></div>
 </div>
@@ -86,14 +122,15 @@
 
 <div id="gameOverScreen" class="overlay" style="display: none;">
     <h1>🥥 BAR'S CLOSED!</h1>
-    <p id="finalScore" style="font-size: 26px; margin-bottom: 5px;"></p>
-    <div id="newRecordMsg" style="color: #ffd700; font-size: 22px; margin-bottom: 15px;"></div>
+    <p id="finalScore" style="font-size: 22px; margin-bottom: 5px;"></p>
+    <div id="newRecordMsg" style="color: #ffd700; font-size: 20px; margin-bottom: 10px;"></div>
     <button id="retryBtn">Next Shift</button>
 </div>
 
 <canvas id="gameCanvas"></canvas>
 
 <script>
+// ... [REST OF YOUR JAVASCRIPT LOGIC REMAINS THE SAME] ...
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const scoreDisplay = document.getElementById('scoreText');
@@ -120,8 +157,8 @@ const fruitNames = { "🍎": "Apple", "🍌": "Banana", "🍇": "Grape", "🍓":
 const grossItems = ["🧦", "🧼", "👟", "🐟", "🪲", "🔋"]; 
 const failMap = { "🧦": "Sock Sludge", "🧼": "Soap Suds", "👟": "Shoe Shake", "🐟": "Fishy Fizz", "🪲": "Bug Brew", "🔋": "Battery Blast", "🍎": "Wrong Apple", "🍌": "Bad Banana", "🍇": "Gross Grape", "🍓": "Silly Berry", "🍍": "Painful Pine", "🥭": "Messy Mango" };
 
-const BLENDER_SIZE = 140;
-const FRUIT_SIZE = 80;
+const BLENDER_SIZE = 120; // Slightly smaller for mobile
+const FRUIT_SIZE = 70;   // Slightly smaller for mobile
 const NUM_LANES = 5;
 const laneWidth = canvas.width / NUM_LANES;
 
@@ -211,8 +248,8 @@ function startNewRecipe() {
 
 function updateUI() {
     scoreDisplay.innerText = `Score: ${score} | Level: ${level}`;
-    highScoreDisplay.innerText = `Best Score: ${highScore}`;
-    maxComboDisplay.innerText = `Best Streak: ${bestCombo}x`;
+    highScoreDisplay.innerText = `Best: ${highScore}`;
+    maxComboDisplay.innerText = `Streak: ${bestCombo}x`;
     livesDisplay.innerText = "❤️".repeat(Math.max(0, lives));
     smoothieNameDisplay.innerText = currentSmoothieName;
     let html = "";
@@ -261,20 +298,6 @@ function handleCatch(item) {
         if (lives <= 0) triggerGameOver();
     }
     updateUI();
-}
-
-function triggerGameOver() {
-    isPaused = true;
-    playGameOverSound();
-    finalScoreText.innerText = `Shift over! Final Score: ${score}`;
-    let recordText = "";
-    if (score > highScore) {
-        highScore = score;
-        localStorage.setItem('smoothieHighScore', highScore);
-        recordText += "🏆 NEW HIGH SCORE! ";
-    }
-    newRecordMsg.innerText = recordText;
-    gameOverScreen.style.display = "flex";
 }
 
 window.addEventListener('mousemove', (e) => { blender.x = e.clientX - blender.width / 2; });
