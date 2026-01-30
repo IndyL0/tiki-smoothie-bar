@@ -1,89 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Smoothie Catcher - Final Build</title>
+    <title>Tiki Smoothie Bar - Final</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥤</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥤</text></svg>">
 
     <style>
-        body { 
-            margin: 0; 
-            overflow: hidden; 
-            background: linear-gradient(to bottom, #005f73 0%, #0a9396 60%, #94d2bd 90%, #e9d8a6 100%); 
-            font-family: 'Arial', sans-serif; 
-            touch-action: none; 
-        }
-        
+        body { margin: 0; overflow: hidden; background: linear-gradient(to bottom, #005f73 0%, #0a9396 60%, #94d2bd 90%, #e9d8a6 100%); font-family: 'Arial', sans-serif; touch-action: none; }
         canvas { display: block; background: transparent; }
 
-        /* FIXED MOBILE STATS BAR */
-        #statsArea { 
-            position: absolute; 
-            top: 85px; /* Sits just below the roof rafters */
-            left: 0;
-            width: 100%;
-            pointer-events: none; 
-            z-index: 5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-        }
-        
-        #scoreRow {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            width: 100%;
-        }
-
+        /* HEADER AREA */
+        #statsArea { position: absolute; top: 85px; left: 0; width: 100%; pointer-events: none; z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+        .scoreRow { display: flex; justify-content: center; gap: 15px; width: 100%; }
         #scoreText { font-size: 20px; font-weight: bold; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         #highScoreText { font-size: 14px; color: #ffd700; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
         #maxComboText { font-size: 14px; color: #00f2fe; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
         #livesDisplay { font-size: 24px; margin-top: 2px; }
 
-        /* REPOSITIONED ORDER TICKET */
-        #recipeContainer { 
-            position: absolute; 
-            top: 165px; /* Moved down to avoid the stats bar */
-            left: 50%; 
-            transform: translateX(-50%); 
-            pointer-events: none; 
-            text-align: center; 
-            width: 90%;
-            max-width: 350px;
-            z-index: 5;
-            background: rgba(255, 255, 255, 0.2); 
-            padding: 8px 15px; 
-            border-radius: 15px; 
-            backdrop-filter: blur(8px); 
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
+        /* TICKET AREA */
+        #recipeContainer { position: absolute; top: 160px; left: 50%; transform: translateX(-50%); pointer-events: none; text-align: center; width: 90%; max-width: 350px; z-index: 5; background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 15px; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.3); }
         #orderTitle { font-size: 14px; color: #fff; text-transform: uppercase; font-weight: bold; text-shadow: 1px 1px 2px #000; }
         #smoothieName { font-size: 24px; color: #ffca3a; font-weight: 900; display: block; margin: 2px 0; text-shadow: 2px 2px 4px #000; }
         #ingredients { font-size: 22px; font-weight: bold; color: #fff; text-shadow: 1px 1px 2px #000; }
 
-        .overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.85); color: white; display: flex; 
-            flex-direction: column; align-items: center; justify-content: center; z-index: 20;
-            text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        #message { position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); 
-                   font-size: 32px; font-weight: bold; color: #ff4500; text-align: center; 
-                   background: rgba(255,255,255,0.95); padding: 20px; border-radius: 30px; 
-                   box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: none; z-index: 10; width: 80%; }
-        
-        #success { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);
-                   font-size: 45px; color: #ffffff; font-weight: bold; display: none; text-shadow: 4px 4px #32cd32; z-index: 10;}
-        
+        /* OVERLAYS */
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20; text-align: center; padding: 20px; box-sizing: border-box; }
+        #message { position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; font-weight: bold; color: #ff4500; text-align: center; background: rgba(255,255,255,0.95); padding: 20px; border-radius: 30px; display: none; z-index: 10; width: 80%; }
+        #success { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); font-size: 45px; color: #ffffff; font-weight: bold; display: none; text-shadow: 4px 4px #32cd32; z-index: 10;}
         button { padding: 15px 30px; font-size: 22px; cursor: pointer; border-radius: 15px; border: none; background: #ae2012; color: white; margin-top: 20px; font-weight: bold; }
-
         .instruction-box { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.2); width: 90%; }
     </style>
 </head>
@@ -95,16 +40,13 @@
         <p style="font-size: 18px; margin: 5px 0;">1. Follow the <strong>Recipe</strong>.</p>
         <p style="font-size: 18px; margin: 5px 0;">2. Catch <strong>fruit</strong> for <strong>points</strong>.</p>
         <p style="font-size: 18px; margin: 5px 0;">3. Avoid <strong>Gross Items</strong>!</p>
-        <p style="font-size: 16px; color: #00f2fe; margin: 5px 0;">3 Mistakes = Bar Closed!</p>
     </div>
-    <button id="startBtn">START SHIFT</button>
+    <button onclick="startGame()">START SHIFT</button>
 </div>
 
 <div id="statsArea">
-    <div id="scoreRow">
-        <div id="scoreText">Score: 0 | Level: 1</div>
-    </div>
-    <div id="scoreRow">
+    <div class="scoreRow"><div id="scoreText">Score: 0 | Level: 1</div></div>
+    <div class="scoreRow">
         <div id="highScoreText">Best: 0</div>
         <div id="maxComboText">Streak: 1x</div>
     </div>
@@ -124,13 +66,12 @@
     <h1>🥥 BAR'S CLOSED!</h1>
     <p id="finalScore" style="font-size: 22px; margin-bottom: 5px;"></p>
     <div id="newRecordMsg" style="color: #ffd700; font-size: 20px; margin-bottom: 10px;"></div>
-    <button id="retryBtn">Next Shift</button>
+    <button onclick="resetGame()">Next Shift</button>
 </div>
 
 <canvas id="gameCanvas"></canvas>
 
 <script>
-// ... [REST OF YOUR JAVASCRIPT LOGIC REMAINS THE SAME] ...
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const scoreDisplay = document.getElementById('scoreText');
@@ -145,8 +86,6 @@ const startScreen = document.getElementById('startScreen');
 const gameOverScreen = document.getElementById('gameOverScreen');
 const finalScoreText = document.getElementById('finalScore');
 const newRecordMsg = document.getElementById('newRecordMsg');
-const startBtn = document.getElementById('startBtn');
-const retryBtn = document.getElementById('retryBtn');
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -157,15 +96,15 @@ const fruitNames = { "🍎": "Apple", "🍌": "Banana", "🍇": "Grape", "🍓":
 const grossItems = ["🧦", "🧼", "👟", "🐟", "🪲", "🔋"]; 
 const failMap = { "🧦": "Sock Sludge", "🧼": "Soap Suds", "👟": "Shoe Shake", "🐟": "Fishy Fizz", "🪲": "Bug Brew", "🔋": "Battery Blast", "🍎": "Wrong Apple", "🍌": "Bad Banana", "🍇": "Gross Grape", "🍓": "Silly Berry", "🍍": "Painful Pine", "🥭": "Messy Mango" };
 
-const BLENDER_SIZE = 120; // Slightly smaller for mobile
-const FRUIT_SIZE = 70;   // Slightly smaller for mobile
+const BLENDER_SIZE = 120;
+const FRUIT_SIZE = 70;
 const NUM_LANES = 5;
 const laneWidth = canvas.width / NUM_LANES;
 
-let score, level, gameSpeedMultiplier, lives, currentRecipe, currentSmoothieName, fallingItems, particles, isPaused, isStarted = false;
+let score, level, gameSpeedMultiplier, lives, currentRecipe, currentSmoothieName, fallingItems, particles, isPaused = false, isStarted = false;
 let combo = 1;
-let highScore = localStorage.getItem('smoothieHighScore') || 0;
-let bestCombo = localStorage.getItem('smoothieMaxCombo') || 1;
+let highScore = parseInt(localStorage.getItem('smoothieHighScore')) || 0;
+let bestCombo = parseInt(localStorage.getItem('smoothieMaxCombo')) || 1;
 
 let blender = { x: canvas.width / 2, y: canvas.height - 180, width: BLENDER_SIZE, height: BLENDER_SIZE, rotation: 0, shakeAmount: 0 };
 let audioCtx = null;
@@ -214,19 +153,20 @@ function playGameOverSound() {
     osc.start(); osc.stop(audioCtx.currentTime + 0.8);
 }
 
-function initVariables() {
+function startGame() {
+    isStarted = true;
+    startScreen.style.display = "none";
+    ensureAudio();
+    resetGame();
+}
+
+function resetGame() {
     score = 0; level = 1; gameSpeedMultiplier = 1.0; lives = 3; combo = 1;
     fallingItems = []; particles = []; isPaused = false;
     gameOverScreen.style.display = "none";
+    newRecordMsg.style.display = "none";
     startNewRecipe();
     updateUI();
-}
-
-function startGame() {
-    ensureAudio();
-    isStarted = true;
-    startScreen.style.display = "none";
-    initVariables();
 }
 
 function startNewRecipe() {
@@ -291,6 +231,7 @@ function handleCatch(item) {
         lives--;
         combo = 1;
         playBuzzerSound();
+        if ("vibrate" in navigator) navigator.vibrate(100);
         blender.shakeAmount = 15; 
         messageDisplay.innerHTML = `<span style="font-size:24px">🤢 YUCK!</span><br>${failMap[item.type] || "Mistake!"}`;
         messageDisplay.style.display = "block";
@@ -300,11 +241,26 @@ function handleCatch(item) {
     updateUI();
 }
 
-window.addEventListener('mousemove', (e) => { blender.x = e.clientX - blender.width / 2; });
-window.addEventListener('touchmove', (e) => { e.preventDefault(); blender.x = e.touches[0].clientX - blender.width / 2; }, {passive: false});
+function triggerGameOver() {
+    isPaused = true;
+    playGameOverSound();
+    finalScoreText.innerText = `Final Score: ${score}`;
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('smoothieHighScore', highScore);
+        newRecordMsg.innerText = "🏆 NEW HIGH SCORE!";
+        newRecordMsg.style.display = "block";
+    }
+    gameOverScreen.style.display = "flex";
+}
 
-startBtn.addEventListener('click', startGame);
-retryBtn.addEventListener('click', initVariables);
+window.addEventListener('mousemove', (e) => { if(isStarted) blender.x = e.clientX - blender.width / 2; });
+window.addEventListener('touchmove', (e) => { 
+    if(isStarted) {
+        e.preventDefault(); 
+        blender.x = e.touches[0].clientX - blender.width / 2; 
+    }
+}, {passive: false});
 
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
