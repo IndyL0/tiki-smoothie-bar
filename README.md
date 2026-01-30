@@ -4,7 +4,7 @@ A juicy, tropical fruit catching game. Follow the recipes, avoid the gross stuff
 
 Welcome to the sun-soaked rafters of the **Tiki Smoothie Bar**!
 
-## 🎮 [Play the Game Here!](YOUR_GITHUB_PAGES_LINK_HERE)
+## 🎮 [Play the Game Here!](https://indyl0.github.io/tiki-smoothie-bar/)
 
 ---
 
